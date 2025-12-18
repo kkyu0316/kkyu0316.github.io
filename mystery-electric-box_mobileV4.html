@@ -608,13 +608,7 @@
                 totalCurrent += I;
                 if (path.length > 0) circuitCompleted = true;
             });
-        }
 
-        // 偵測：有迴路但電流為0 (電壓抵銷)
-        if (circuitCompleted && totalCurrent < 0.01) {
-            isVoltageCanceled = true;
-            updateStatus("⚠️ 電路已接通，但電壓抵銷了！", 'warn');
-            updateHint("💡 提示：電池可能接反了，試著交換接線方向？");
         }
     }
 
