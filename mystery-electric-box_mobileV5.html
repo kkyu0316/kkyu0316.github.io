@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>神秘黑盒子：對照實驗室</title>
+    <title>神秘電子盒</title>
     <style>
         /* 1. 基礎設定 */
         html, body {
@@ -155,7 +155,12 @@
 <div class="main-container">
     <h1>⚡️ 神秘黑盒子：對照實驗室</h1>
     <div class="intro">
-        <b>任務：</b>在下方兩個區域分別建立電路。你可以一邊接 <b>Box A</b>，另一邊接 <b>Box B</b>，直接比較燈泡的亮度差異！
+    <b>您的任務：</b>找出下方「神秘盒子」中元件的真正身份。盒子裡分別裝有：燈泡、電線、電池和空盒。<br>
+    📖<b>操作指南：</b><br>
+    加入：點擊按鈕新增元件 ; 移動：按住元件拖曳(在畫布外按住可捲動頁面)<br>
+    連線：拖曳黑點，連線變為綠色時放開即可連接 ; 刪除：在元件上快速點兩下<br>
+
+
     </div>
 
     <!-- 實驗區容器 -->
@@ -174,9 +179,7 @@
                 <button class="btn-box" onclick="sim1.add('box', 'C')">Box C</button>
                 <button class="btn-box" onclick="sim1.add('box', 'D')">Box D</button>
             </div>
-            <canvas id="canvas-1" width="400" height="350"></canvas>
-            <div class="status-bar" id="status-1">請加入元件...</div>
-        </div>
+
 
         <!-- 右區 (Region 2) -->
         <div class="circuit-region region-2">
@@ -191,9 +194,6 @@
                 <button class="btn-box" onclick="sim2.add('box', 'C')">Box C</button>
                 <button class="btn-box" onclick="sim2.add('box', 'D')">Box D</button>
             </div>
-            <canvas id="canvas-2" width="400" height="350"></canvas>
-            <div class="status-bar" id="status-2">請加入元件...</div>
-        </div>
 
     </div>
 
@@ -305,7 +305,7 @@
             this.wires.forEach(w => w.isHot = false);
 
             let powerSources = this.components.filter(c => c.type === 'battery' || (c.type === 'box' && c.subType === 'A'));
-            if (powerSources.length === 0) { this.updateStatus("請加入電源"); return; }
+            if (powerSources.length === 0) 
             this.updateStatus("實驗中...");
 
             // 1. 短路與電壓檢測
@@ -316,8 +316,7 @@
                     source.isOverheated = true;
                     result.wires.forEach(w => w.isHot = true);
                     this.updateStatus("⚠️ 短路！電路過熱！", 'error');
-                } else if (result && Math.abs(result.netVoltage) <= 0.1) {
-                    this.updateStatus("電壓抵銷 (0V)", 'warn');
+               
                 }
             }
             if (this.isShortCircuit) return;
@@ -376,10 +375,7 @@
 
                 if(nextComp.id === srcId && nextNode === 0) {
                     let I = (R>0)?V/R:0;
-                    if(I<0.01) {
-                        if(path.some(p=>p.type==='bulb')) this.updateStatus("電壓抵銷 (0V)", 'warn');
-                        I=0;
-                    }
+   
                     path.forEach(item => { if(item.type==='bulb') item.brightness = Math.max(item.brightness, I); });
                     return;
                 }
