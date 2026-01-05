@@ -147,7 +147,7 @@
         <div class="panel">
             <div class="panel-header">1. Laboratory Work</div>
             <div class="content">
-                <div class="caption-box" id="lab-caption">[1] We pour the 10 ml of alcohol into the 10 ml of water.</div>
+                <div class="caption-box" id="lab-caption">[1] We pour the 50 ml of alcohol into the 50 ml of water.</div>
                 <div class="lab-viewport">
                     <!-- [LINK LOCATION] Lab Step Images -->
                     <img id="lab-image" src="lab_step1.png" alt="Lab Visual">
@@ -155,7 +155,7 @@
             </div>
             <div class="controls">
                 <button onclick="changeStep(-1)" id="btn-back" disabled>Backward</button>
-                <span id="step-tag" style="font-weight:bold; font-size:0.75em; line-height: 30px;">STEP 1 / 7</span>
+                <span id="step-tag" style="font-weight:bold; font-size:0.75em; line-height: 30px;">STEP 1 / 3</span>
                 <button onclick="changeStep(1)" id="btn-next">Forward</button>
             </div>
         </div>
@@ -237,14 +237,10 @@
 
 <script>
     const captions = [
-        "[1] We pour the 10 ml of alcohol into the 10 ml of water.",
-        "[2] The total volume of the mixture is less than 20 ml.",
-        "[3] We compare the mass of the separated liquids and the mass of the mixed liquids.",
-        "[4] We repeat the same experiment, but this time we colour the water blue and colour the alcohol red in order to see what happens better.",
-        "[5] We pour the red alcohol into the blue water.",
-        "[6] The mixture of liquids become purple and the volume of the mixture is less than 20 ml.",
-        "[7] We compare the mass of the separated liquids and the mass of the mixed liquids."
-    ];
+        "[1] We pour the 50 ml of alcohol into the 50 ml of water.",
+        "[2] The total volume of the mixture is less than 100 ml.",
+        "[3] We compare the mass of the liquids before and after mixing.",
+   ];
 
     const modelData = {
         1: {
