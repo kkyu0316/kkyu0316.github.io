@@ -87,7 +87,7 @@
             border-left: 4px solid var(--accent);
             font-size: 0.85em;
             font-weight: 600;
-            min-height: 40px;
+            min-height: 20px;
             margin-bottom: 5px;
         }
 
@@ -147,7 +147,7 @@
         <div class="panel">
             <div class="panel-header">1. Laboratory Work</div>
             <div class="content">
-                <div class="caption-box" id="lab-caption">[1] We pour the 10 ml of alcohol into the 10 ml of water.</div>
+                <div class="caption-box" id="lab-caption">[1] We pour the 50 ml of alcohol into the 50 ml of water.</div>
                 <div class="lab-viewport">
                     <!-- [LINK LOCATION] Lab Step Images -->
                     <img id="lab-image" src="lab_step1.png" alt="Lab Visual">
@@ -237,31 +237,31 @@
 
 <script>
     const captions = [
-        "[1] We pour the 10 ml of alcohol into the 10 ml of water.",
-        "[2] The total volume of the mixture is less than 20 ml.",
-        "[3] We compare the mass of the separated liquids and the mass of the mixed liquids.",
+        "[1] We pour the 50 ml of alcohol into the 50 ml of water.",
+        "[2] The total volume of the mixture is less than 100 ml.",
+        "[3] We compare the mass of the liquids before and after mixing.",
         "[4] We repeat the same experiment, but this time we colour the water blue and colour the alcohol red in order to see what happens better.",
-        "[5] We pour the red alcohol into the blue water.",
-        "[6] The mixture of liquids become purple and the volume of the mixture is less than 20 ml.",
-        "[7] We compare the mass of the separated liquids and the mass of the mixed liquids."
+        "[5] We pour the 50 ml of the red alcohol into 50 ml of the blue water.",
+        "[6] The mixture of liquids become purple and the volume of the mixture is less than 100 ml.",
+        "[7] We compare the mass of the liquids before and after mixing."
     ];
 
     const modelData = {
         1: {
             name: "Model 1: Continuous Liquids",
-            text: "123."
+            text: "In this model, we imagine liquids are like solid bricks with no empty spaces inside. Because there are no gaps, the two liquids cannot sink into each other or overlap."
         },
         2: {
             name: "Model 2: Tightly Packed Particles",
-            text: "Each liquid is portrayed as a grid of tightly packed particles, with essentially no spaces between the particles. When the liquids combine, the particles can push by each other and intermix. However, they remain in the same tight packing and the volumes sum."
+            text: "In this model, we imagine that both liquids are made of tiny particles that are all the same size. These particles are packed tightly together. When you mix the liquids, the particles can slide past each other, but they still stay close together."
         },
         3: {
             name: "Model 3: Loosely Packed Particles of Different Sizes",
-            text: "Each liquid is composed of loosely packed particles of different size. When the two different liquids combine, the particles intermix with some of the smaller water particles fitting in between the larger alcohol particles."
+            text: "In this model, we imagine that each liquid is composed of tiny particles of different size. When you mix the two liquids, the particles can slide past each other and some of the smaller particles fitting in the space between the larger particles."
         },
         4: {
             name: "Model 4: Tightly Packed Particles with Evaporation",
-            text: "This model makes the same assumption about the structure of matter as Model 2 does. It also assumes that some water and alcohol evaporate in the pouring process, to explain the loss of volume."
+            text: "In this model, we imagine that it is same as the Model 2. But in the pouring and mixing process, some water and alcohol evaporate."
         }
     };
 
