@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modeling Lab: Water & Alcohol Mixture</title>
+    <style>
+        :root {
+            --primary: #1a2a3a;
+            --accent: #3498db;
+            --bg: #f0f2f5;
+            --border: #cfd8dc;
+            --panel-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-y: auto; 
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 12px;
+            width: 100%;
+            max-width: 1400px;
+            height: calc(100vh - 40px);
+            min-height: 680px;
+            align-items: stretch;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+
+        .panel-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        .content { 
+            padding: 12px; 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* --- Left Column Structure --- */
+        .left-col { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; height: 100%; }
+
+        .lab-viewport {
+            flex-grow: 1;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            border: 1px solid #f0f0f0;
+            padding: 5px;
+        }
+        .lab-viewport img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .caption-box {
+            background: #f1f8ff;
+            padding: 8px;
+            border-left: 4px solid var(--accent);
+            font-size: 0.85em;
+            font-weight: 600;
+            min-height: 40px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-q { margin-bottom: 6px; padding: 8px; background: #f9f9f9; border-radius: 4px; font-size: 0.8em; }
+
+        /* --- Right Column (Models & Investigation) --- */
+        .tab-bar { display: flex; background: #eee; border-bottom: 1px solid var(--border); flex-shrink: 0;}
+        .tab { 
+            flex: 1; padding: 10px; text-align: center; cursor: pointer; 
+            font-weight: bold; font-size: 0.75em; border-right: 1px solid #ccc;
+        }
+        .tab.active { background: white; border-bottom: 3px solid var(--accent); color: var(--accent); }
+        
+        /* Enlarged Model Icon */
+        .model-detail-area { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 15px; 
+            padding: 15px; 
+            background: #fafafa; 
+            border: 1px solid #eee;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .model-icon-container { width: 140px; height: 140px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid #ddd; }
+        .model-icon-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .model-desc { font-size: 0.85em; line-height: 1.4; color: #333; }
+
+        /* Investigation Area aligned with description width */
+        .comparison-area { display: flex; gap: 10px; justify-content: stretch; flex-grow: 1; }
+        .comp-frame { 
+            flex: 1; border: 1px solid #ddd; border-radius: 4px; 
+            text-align: center; background: #fff; display: flex; flex-direction: column;
+        }
+        .comp-header { background: #eee; font-size: 0.7em; font-weight: bold; padding: 6px; flex-shrink: 0;}
+        .comp-img-container { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .comp-img-container img { max-width: 100%; max-height: 160px; object-fit: contain; }
+
+        /* Reflection Area */
+        .reflection-area { margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px; flex-shrink: 0; }
+        .auto-save-tag { font-size: 0.7em; color: #7f8c8d; font-style: italic; font-weight: normal; }
+        textarea { width: 97%; height: 60px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; padding: 8px; resize: none; font-family: inherit; font-size: 0.85em; }
+
+        .controls { display: flex; justify-content: space-between; background: #f1f1f1; padding: 8px 12px; border-top: 1px solid #ddd; flex-shrink: 0;}
+        button { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.8em; font-weight: bold; }
+        button:hover { background: var(--accent); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    
+    <!-- LEFT COLUMN -->
+    <div class="left-col">
+        <!-- 1. LABORATORY WORK -->
+        <div class="panel">
+            <div class="panel-header">1. Laboratory Work</div>
+            <div class="content">
+                <div class="caption-box" id="lab-caption">[1] We pour the 10 ml of alcohol into the 10 ml of water.</div>
+                <div class="lab-viewport">
+                    <!-- [LINK LOCATION] Lab Step Images -->
+                    <img id="lab-image" src="lab_step1.png" alt="Lab Visual">
+                </div>
+            </div>
+            <div class="controls">
+                <button onclick="changeStep(-1)" id="btn-back" disabled>Backward</button>
+                <span id="step-tag" style="font-weight:bold; font-size:0.75em; line-height: 30px;">STEP 1 / 7</span>
+                <button onclick="changeStep(1)" id="btn-next">Forward</button>
+            </div>
+        </div>
+
+        <!-- 2. STOP AND THINK -->
+        <div class="panel">
+            <div class="panel-header">2. Stop and Think</div>
+            <div class="content">
+                <div class="quiz-q">
+                    <b>Q1. Volume after mixing vs. Before?</b><br>
+                    <input type="radio" name="q1"> Bigger &nbsp; <input type="radio" name="q1"> Equal &nbsp; <input type="radio" name="q1" id="q1c"> Less (~19ml)
+                </div>
+                <div class="quiz-q">
+                    <b>Q2. Mass after mixing vs. Before?</b><br>
+                    <input type="radio" name="q2"> Heavier &nbsp; <input type="radio" name="q2" id="q2c"> Equal &nbsp; <input type="radio" name="q2"> Lighter
+                </div>
+                <div class="quiz-q">
+                    <b>Q3. What happens to the liquids?</b><br>
+                    <input type="radio" name="q3" id="q3c"> They intermix &nbsp; <input type="radio" name="q3"> They stay separated
+                </div>
+                <div style="margin-top:auto; display: flex; align-items: center; gap: 10px;">
+                    <button onclick="checkQuiz()">Check Findings</button>
+                    <span id="quiz-msg" style="font-weight:bold; font-size: 0.8em;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="panel">
+        <div class="panel-header">3. Models & Investigation</div>
+        <div class="tab-bar">
+            <div class="tab active" onclick="selectModel(1)">Model 1</div>
+            <div class="tab" onclick="selectModel(2)">Model 2</div>
+            <div class="tab" onclick="selectModel(3)">Model 3</div>
+            <div class="tab" onclick="selectModel(4)">Model 4</div>
+        </div>
+
+        <div class="content">
+            <div class="model-detail-area">
+                <div class="model-icon-container">
+                    <!-- [LINK LOCATION] Model Microscopic Icons -->
+                    <img id="model-icon" src="model1_icon.png" alt="Model Icon">
+                </div>
+                <div class="model-desc">
+                    <b id="model-name" style="font-size: 1em; color: var(--primary);">Model 1: Continuous Liquids</b><br>
+                    <span id="model-text">...</span>
+                </div>
+            </div>
+
+            <!-- Investigation Frames -->
+            <div class="comparison-area">
+                <div class="comp-frame">
+                    <div class="comp-header">LAB PHENOMENON</div>
+                    <div class="comp-img-container">
+                        <!-- [LINK LOCATION] Constant Lab Result Image -->
+                        <img src="lab_observation.png" alt="Lab Obs">
+                    </div>
+                </div>
+                <div class="comp-frame">
+                    <div class="comp-header">MODEL PREDICTION</div>
+                    <div class="comp-img-container">
+                        <!-- [LINK LOCATION] Model Prediction Scale Image -->
+                        <img id="predict-img" src="model1_predict.png" alt="Prediction">
+                    </div>
+                </div>
+            </div>
+
+            <div class="reflection-area">
+                <p style="font-size: 0.75em; font-weight:bold; margin:0;">
+                    Can this model represent the phenomenon? Write your reasons:
+                    <span class="auto-save-tag">(Auto-saving...)</span>
+                </p>
+                <textarea id="reflection-box" oninput="saveCurrentNote()" placeholder="Note the matches or conflicts here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const captions = [
+        "[1] We pour the 10 ml of alcohol into the 10 ml of water.",
+        "[2] The total volume of the mixture is less than 20 ml.",
+        "[3] We compare the mass of the separated liquids and the mass of the mixed liquids.",
+        "[4] We repeat the same experiment, but this time we colour the water blue and colour the alcohol red in order to see what happens better.",
+        "[5] We pour the red alcohol into the blue water.",
+        "[6] The mixture of liquids become purple and the volume of the mixture is less than 20 ml.",
+        "[7] We compare the mass of the separated liquids and the mass of the mixed liquids."
+    ];
+
+    const modelData = {
+        1: {
+            name: "Model 1: Continuous Liquids",
+            text: "Each liquid is portrayed as a continuous material with no gaps. In working with this model, students see the implications of this assumption: the two separate liquids cohere as a unit and the volume of the combined water/alcohol mixtures equals the sum of the volume of the two parts."
+        },
+        2: {
+            name: "Model 2: Tightly Packed Particles",
+            text: "Each liquid is portrayed as a grid of tightly packed particles, with essentially no spaces between the particles. When the liquids combine, the particles can push by each other and intermix. However, they remain in the same tight packing and the volumes sum."
+        },
+        3: {
+            name: "Model 3: Loosely Packed Particles of Different Sizes",
+            text: "Each liquid is composed of loosely packed particles of different size. When the two different liquids combine, the particles intermix with some of the smaller water particles fitting in between the larger alcohol particles."
+        },
+        4: {
+            name: "Model 4: Tightly Packed Particles with Evaporation",
+            text: "This model makes the same assumption about the structure of matter as Model 2 does. It also assumes that some water and alcohol evaporate in the pouring process, to explain the loss of volume."
+        }
+    };
+
+    let notesStorage = { 1: "", 2: "", 3: "", 4: "" };
+    let currentModel = 1;
+
+    function saveCurrentNote() {
+        notesStorage[currentModel] = document.getElementById('reflection-box').value;
+    }
+
+    function selectModel(id) {
+        document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', (idx + 1) === id));
+        currentModel = id;
+        const data = modelData[id];
+        document.getElementById('model-name').innerText = data.name;
+        document.getElementById('model-text').innerText = data.text;
+        
+        /* [IMAGE LOGIC] Model Icon & Prediction */
+        document.getElementById('model-icon').src = `model${id}_icon.png`;
+        document.getElementById('predict-img').src = `model${id}_predict.png`;
+        
+        document.getElementById('reflection-box').value = notesStorage[id];
+    }
+
+    let labStep = 1;
+    function changeStep(dir) {
+        labStep = Math.max(1, Math.min(7, labStep + dir));
+        document.getElementById('lab-caption').innerText = captions[labStep-1];
+        
+        /* [IMAGE LOGIC] Laboratory Cycle */
+        document.getElementById('lab-image').src = `lab_step${labStep}.png`;
+        
+        document.getElementById('step-tag').innerText = `STEP ${labStep} / 7`;
+        
+        /* Disabling logic for boundaries */
+        document.getElementById('btn-back').disabled = (labStep === 1);
+        document.getElementById('btn-next').disabled = (labStep === 7);
+    }
+
+    function checkQuiz() {
+        const correct = document.getElementById('q1c').checked && document.getElementById('q2c').checked && document.getElementById('q3c').checked;
+        const msg = document.getElementById('quiz-msg');
+        msg.innerText = correct ? "Correct!" : "Try again.";
+        msg.style.color = correct ? "green" : "red";
+    }
+    
+    selectModel(1);
+</script>
+
+</body>
+</html>
