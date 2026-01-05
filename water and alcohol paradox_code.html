@@ -172,7 +172,7 @@
             </div>
             <div class="controls">
                 <button onclick="changeStep(-1)" id="btn-back" disabled>Backward</button>
-                <span id="step-tag" style="font-weight:bold; font-size:0.75em; line-height: 30px;">STEP 1 / 7</span>
+                <span id="step-tag" style="font-weight:bold; font-size:0.75em; line-height: 30px;">STEP 1 / 6</span>
                 <button onclick="changeStep(1)" id="btn-next">Forward</button>
             </div>
         </div>
@@ -258,10 +258,10 @@
         "[1] We pour the 50 ml of alcohol into the 50 ml of water.",
         "[2] The total volume of the mixture is less than 100 ml.",
         "[3] We compare the mass of the liquids before and after mixing.",
-        "[4] We repeat the same experiment, but this time we colour the water blue and colour the alcohol red in order to see what happens better.",
-        "[5] We pour the 50 ml of the red alcohol into 50 ml of the blue water.",
-        "[6] The mixture of liquids become purple and the volume of the mixture is less than 100 ml.",
-        "[7] We compare the mass of the liquids before and after mixing."
+        "[4] We repeat the same experiment, but this time we colour the 50 ml of water blue and colour the 50 ml of alcohol red in order to see what happens better.",
+        "[5] The mixture of liquids become purple and the volume of the mixture is less than 100 ml.",
+        "[6] We compare the mass of the liquids before and after mixing."
+     
     ];
 
     const modelData = {
@@ -306,17 +306,17 @@
 
     let labStep = 1;
     function changeStep(dir) {
-        labStep = Math.max(1, Math.min(7, labStep + dir));
+        labStep = Math.max(1, Math.min(6, labStep + dir));
         document.getElementById('lab-caption').innerText = captions[labStep-1];
         
         /* [IMAGE LOGIC] Laboratory Cycle */
         document.getElementById('lab-image').src = `lab_step${labStep}.png`;
         
-        document.getElementById('step-tag').innerText = `STEP ${labStep} / 7`;
+        document.getElementById('step-tag').innerText = `STEP ${labStep} / 6`;
         
         /* Disabling logic for boundaries */
         document.getElementById('btn-back').disabled = (labStep === 1);
-        document.getElementById('btn-next').disabled = (labStep === 7);
+        document.getElementById('btn-next').disabled = (labStep === 6);
     }
 
     function checkQuiz() {
