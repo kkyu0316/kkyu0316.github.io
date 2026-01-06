@@ -226,8 +226,13 @@
 
             <!-- Investigation Frames -->
             <div class="comparison-area">
-                <div class="comp-frame">
-                    <div class="comp-header">LAB PHENOMENON</div>
+ <div class="comp-frame">
+    <div class="comp-header">LAB PHENOMENON</div>
+    <div class="comp-img-container">
+        <!-- Added id="lab-obs-img" here -->
+        <img id="lab-obs-img" src="lab_observation1.png" alt="Lab Obs">
+    </div>
+</div>
                     <div class="comp-img-container">
                         <!-- [LINK LOCATION] Constant Lab Result Image -->
                         <img src="lab_observation.png" alt="Lab Obs">
@@ -290,19 +295,30 @@
         notesStorage[currentModel] = document.getElementById('reflection-box').value;
     }
 
-    function selectModel(id) {
-        document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', (idx + 1) === id));
-        currentModel = id;
-        const data = modelData[id];
-        document.getElementById('model-name').innerText = data.name;
-        document.getElementById('model-text').innerText = data.text;
-        
-        /* [IMAGE LOGIC] Model Icon & Prediction */
-        document.getElementById('model-icon').src = `model${id}_icon.png`;
-        document.getElementById('predict-img').src = `model${id}_predict.png`;
-        
-        document.getElementById('reflection-box').value = notesStorage[id];
-    }
+   function selectModel(id) {
+    // 1. Manage Tabs styling
+    document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', (idx + 1) === id));
+    
+    currentModel = id;
+    const data = modelData[id];
+
+    // 2. Update Text Descriptions
+    document.getElementById('model-name').innerText = data.name;
+    document.getElementById('model-text').innerText = data.text;
+
+    // 3. UPDATE ALL IMAGES DYNAMICALLY
+    // This updates the Microscopic Model Icon (Rectangle)
+    document.getElementById('model-icon').src = `model${id}_icon.png`;
+    
+    // This updates the Lab Phenomenon (Left side of comparison)
+    document.getElementById('lab-obs-img').src = `lab_observation${id}.png`;
+    
+    // This updates the Model Prediction (Right side of comparison)
+    document.getElementById('predict-img').src = `model${id}_predict.png`;
+
+    // 4. Load the stored notes for this specific model
+    document.getElementById('reflection-box').value = notesStorage[id];
+}
 
     let labStep = 1;
     function changeStep(dir) {
