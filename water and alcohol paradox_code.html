@@ -30,9 +30,9 @@
             gap: 12px;
             width: 100%;
             max-width: 1400px;
-            height: calc(100vh - 40px);
-            min-height: 680px;
-            align-items: stretch;
+            height: auto; /* allow content to determine height */
+            min-height: 360px; /* further reduced */
+            align-items: start;
         }
 
         .panel {
@@ -43,7 +43,7 @@
             flex-direction: column;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            height: 100%;
+            height: auto; /* let panels size to content */
         }
 
         .panel-header {
@@ -67,7 +67,13 @@
         }
 
         /* --- Left Column Structure --- */
-        .left-col { display: grid; grid-template-rows: 1fr 1fr; gap: 12px; height: 100%; }
+        .left-col { display: grid; grid-template-rows: auto auto; gap: 12px; height: auto; }
+
+        /* Limit height of the second panel (Stop and Think) so it aligns with right column */
+        .left-col > .panel:nth-child(2) .content {
+            max-height: 360px;
+            overflow-y: auto;
+        }
 
         .lab-viewport {
             flex-grow: 1;
@@ -78,6 +84,7 @@
             margin-bottom: 8px;
             border: 1px solid #f0f0f0;
             padding: 5px;
+            max-height: 220px; /* limit vertical growth */
         }
         .lab-viewport img { max-width: 100%; max-height: 100%; object-fit: contain; }
         
@@ -114,7 +121,7 @@
         }
         .model-icon-container { 
     width: 100%;             /* Matches the width of the description above */
-    height: 200px;           /* Adjust this to your desired rectangular height */
+    height: 110px;           /* reduced height to save vertical space */
     margin: 10px 0;          /* Adds some space above and below the box */
     
     /* THE CENTERING CODE */
@@ -134,7 +141,7 @@
         .model-desc { font-size: 0.85em; line-height: 1.4; color: #333; }
 
         /* Investigation Area aligned with description width */
-        .comparison-area { display: flex; gap: 10px; justify-content: stretch; flex-grow: 0; min-height: 200px; height: auto; flex-shrink: 0; }
+        .comparison-area { display: flex; gap: 10px; justify-content: stretch; flex-grow: 0; min-height: 160px; height: auto; flex-shrink: 0; }
         .comp-frame { 
             flex: 1; border: 1px solid #ddd; border-radius: 4px; 
             text-align: center; background: #fff; display: flex; flex-direction: column;
